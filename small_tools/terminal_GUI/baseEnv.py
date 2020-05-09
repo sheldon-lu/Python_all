@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-# python2环境
+# python3环境
+# 界面演示示例实现 安装rancher基础环境
 
 import os
 import json
@@ -208,7 +209,7 @@ EOF'''
         
         print(">>>>>>>>>>> Begin base yum install...")
         def YumInstallBase():
-            actions = raw_input("是否yum安装基础组件(Y/N):>>> ");
+            actions = input("是否yum安装基础组件(Y/N):>>> ");
             if actions == "N" or actions == "n":
                 print("exit to Menu ing...")
                 time.sleep(2)
@@ -234,11 +235,11 @@ EOF'''
     # 老集群删除操作
     def OldKubernetesClusterDel(self):
         try:
-            actions = raw_input("请输入操作: ");
+            actions = input("请输入操作: ");
             if actions == "h":
                 Menu().run()
 
-        except Exception, e:
+        except Exception as e:
             print("请确保有项目目录; Error: {}".format(e))
 
     # DockerInstallOK
@@ -260,7 +261,7 @@ EOF
 '''
         try:
             print("输入 h 返回菜单Menu\n 输入 q 退出程序")
-            actions = raw_input("安装Docker版本(default: 18.06.1):>>> ");
+            actions = input("安装Docker版本(default: 18.06.1):>>> ");
             if actions == "h":
                 Menu().run()
             elif actions == "q":
@@ -293,7 +294,7 @@ EOF
             print("Docker Install success, To Menu ing...")
             time.sleep(1)
             Menu().run()
-        except Exception, e:
+        except Exception as e:
             print("Output Error: {}".format(e))
             # print e
 
@@ -303,14 +304,14 @@ EOF
         print("请在部署Rancher主机上运行安装..")
         try:
             print("输入 h 返回菜单Menu\n 输入 q 退出程序")
-            actions = raw_input("是否安装Rancher服务端(Y/N):>>> ");
+            actions = input("是否安装Rancher服务端(Y/N):>>> ");
             if actions == "h":
                 Menu().run()
             elif actions == "q":
                 Menu().quit()
             elif actions == "Y" or actions == "y":
                 print("请确认映射路径正确！！！")
-                PathDir = raw_input("Rancher映射路径(/data/rancher/):>>> ")
+                PathDir = input("Rancher映射路径(/data/rancher/):>>> ")
                 command = '''docker run -d --restart=unless-stopped \
 -p 80:80 -p 443:443 \
 -v {}:/var/lib/rancher/ \
@@ -321,7 +322,7 @@ rancher/rancher:2.4.0'''.format(PathDir)
                 print("############################################")
                 print("{}".format(command))
                 print("############################################")
-                if raw_input("请确认映射路径正确！！??正确请按ENTER回车>>>") == "":
+                if input("请确认映射路径正确！！??正确请按ENTER回车>>>") == "":
                     print("command: {}".format(command))
                 #    os.popen(command)
                 else:
@@ -364,13 +365,14 @@ class Menu():
         os.system('clear')
         # os.system('cls')
         # 解码 utf-8 适用于windows调试
-        print(xuanze.decode("utf-8"))
+        # python2 >>> .decode("utf-8")
+        print(xuanze)
 
     def run(self):
         while True:
             self.display_menu()
             try:
-                choice = raw_input("Enter an option >>> ")
+                choice = input("Enter an option >>> ")
             except Exception as e:
                 print("Please input a valid option!");
                 continue
@@ -380,11 +382,11 @@ class Menu():
             if action:
                 action()
                 stopword = "h"
-                print ">>> ",
-                for line in iter(raw_input, stopword):  # 输入为"h"，表示输入结束
+                print(">>> ",end="")
+                for line in iter(input, stopword):  # 输入为"h"，表示输入结束
                     if line == "q":
                         self.quit()
-                    print ">>> ",
+                    print(">>> ",end="")
             else:
                 print("{0} is not a valid choice".format(choice))
                 #time.sleep(1)

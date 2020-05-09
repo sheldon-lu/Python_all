@@ -1,7 +1,7 @@
 # /usr/bin/python
 # -*- coding:utf-8 -*-
 # python3环境
-# linux终端界面化菜单简单实现
+# linux终端界面化菜单实现demo！
 ################
 # sheldon-lu   #
 ################
